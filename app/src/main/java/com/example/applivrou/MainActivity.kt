@@ -1,11 +1,13 @@
 package com.example.applivrou
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
     private val recyclerView: RecyclerView by lazy {
@@ -16,25 +18,46 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.books_shelf)
+
+
 
         var viewModel = ViewModelProvider(this).get(ViewModel::class.java)
 
         bindViews()
 
         viewModel.booksList.observe(this, Observer {
-            booksList -> booksList.forEach { book ->
-                adapter.updateList(
-                    arrayListOf(book)
-                )
-            }
+            booksList -> adapter.updateList(booksList)
         })
 
         viewModel.updateBooksList()
+
+        swapBooksCategory()
     }
 
     private fun bindViews() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun swapBooksCategory() {
+        val tabLayout: TabLayout  = findViewById(R.id.tab_layout)
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                if (tab.text.toString() == "tab 2") {
+                    val toast = Toast.makeText(applicationContext, tab.text.toString(), Toast.LENGTH_SHORT)
+                    toast.show()
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Handle tab reselect
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // Handle tab unselect
+            }
+        })
     }
 }
