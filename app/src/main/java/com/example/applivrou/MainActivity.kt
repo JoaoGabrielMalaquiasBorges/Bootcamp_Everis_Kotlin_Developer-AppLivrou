@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.updateBooksList()
 
-        swapBooksCategory()
+        swapBooksCategory(viewModel)
     }
 
     private fun bindViews() {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun swapBooksCategory() {
+    private fun swapBooksCategory(viewModel: ViewModel) {
         val tabLayout: TabLayout  = findViewById(R.id.tab_layout)
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
                 if (tab.text.toString() == "tab 2") {
                     val toast = Toast.makeText(applicationContext, tab.text.toString(), Toast.LENGTH_SHORT)
                     toast.show()
+                } else {
+                    viewModel.updateBooksList2()
                 }
             }
 

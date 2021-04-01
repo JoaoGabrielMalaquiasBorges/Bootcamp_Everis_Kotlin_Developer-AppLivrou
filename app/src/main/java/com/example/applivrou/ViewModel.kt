@@ -8,10 +8,11 @@ import java.net.URL
 
 class ViewModel: ViewModel() {
     private var booksShelf = arrayListOf<Book>()
+    private val bookshelfRepository = BookshelfRepository()
 
     var booksList = MutableLiveData<ArrayList<Book>>()// .apply { value = booksShelf }
 
-    fun updateBooksList() {
+    fun updateBooksList() { // update bandeja
         Thread(Runnable {
             val url =
                 URL("http://books.google.com/books/content?id=Wv6toQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api")
@@ -25,6 +26,14 @@ class ViewModel: ViewModel() {
                 )
             )
 
+            booksList.postValue(booksShelf)
+        }).start()
+    }
+
+    fun updateBooksList2() {
+        booksShelf.clear()
+        Thread(Runnable {
+            booksShelf.addAll(bookshelfRepository.getSamplesOfCategory(""))
             booksList.postValue(booksShelf)
         }).start()
     }
