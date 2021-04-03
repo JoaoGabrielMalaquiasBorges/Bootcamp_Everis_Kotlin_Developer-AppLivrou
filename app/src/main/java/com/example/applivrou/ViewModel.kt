@@ -30,10 +30,9 @@ class ViewModel: ViewModel() {
         }).start()
     }
 
-    fun updateBooksList2() {
-        booksShelf.clear()
+    fun updateBooksList2(category: String) {
         Thread(Runnable {
-            booksShelf.addAll(bookshelfRepository.getSamplesOfCategory(""))
+            booksShelf.addAll(bookshelfRepository.getSamplesOfCategory(category))
             booksList.postValue(booksShelf)
         }).start()
     }

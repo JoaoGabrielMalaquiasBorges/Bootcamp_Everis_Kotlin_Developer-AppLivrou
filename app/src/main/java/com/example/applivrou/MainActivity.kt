@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             booksList -> adapter.updateList(booksList)
         })
 
-        viewModel.updateBooksList()
+        // viewModel.updateBooksList()
 
         swapBooksCategory(viewModel)
     }
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     val toast = Toast.makeText(applicationContext, tab.text.toString(), Toast.LENGTH_SHORT)
                     toast.show()
                 } else {
-                    viewModel.updateBooksList2()
+                    viewModel.updateBooksList2("romance")
                 }
             }
 

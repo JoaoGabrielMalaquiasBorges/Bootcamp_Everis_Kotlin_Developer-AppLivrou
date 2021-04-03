@@ -23,6 +23,8 @@ class BookshelfRepository() : Application() {
       return bookshelfDB.getBooks(category)
     }*/
 
-    return booksList
+    val googleBooks = GoogleBooks()
+
+    return googleBooks.searchForBooksOfCategory(category)
   }
 }    
