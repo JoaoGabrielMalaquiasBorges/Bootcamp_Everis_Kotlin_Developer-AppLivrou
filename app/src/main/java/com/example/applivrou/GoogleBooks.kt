@@ -2,59 +2,82 @@ package com.example.applivrou
 
 import android.graphics.BitmapFactory
 import com.google.gson.JsonParser
+import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.net.URL
 
 class GoogleBooks() {
-    private val APPLICATION_API_KEY: String = "AIzaSyDUCjMkRDm3h44xSbQ2BQ2-fpLjdyZ_yVM"
-    private val booksList: ArrayList<Book> = ArrayList()
+    private val APPLICATION_API_KEY: String = ""
+    private val booksList: ArrayList<JsonObject> = ArrayList()
+    private val httpClient = OkHttpClient()
 
-    fun searchForBooksOfCategory(category: String): ArrayList<Book> {
-        booksList.clear()
+    fun searchForBooksOfCategory(category: String): ArrayList<JsonObject> {
+        booksList?.clear() ?: booksList
 
-        val url = "https://www.googleapis.com/books/v1/volumes?q=subject:${category}&printType=books&maxResults=20&key=${APPLICATION_API_KEY}"
-
-        val httpClient = OkHttpClient()
-        val request = Request.Builder().url(url).build()
+        val endpoint = "https://www.googleapis.com/books/v1/volumes?q=subject:${category}&printType=books&maxResults=20&key=${APPLICATION_API_KEY}"
+        val request = Request.Builder().url(endpoint).build()
         val response = httpClient.newCall(request).execute()
         val result = response.body?.string()
 
-        val booksJsonElements = JsonParser.parseString(result).asJsonObject.getAsJsonArray("items").iterator()
+        val books = JsonParser.parseString(result).asJsonObject.getAsJsonArray("items").iterator()
 
-        var booksTotal = 9
-        while (booksTotal >= 0) {
-            val bookJsonElement = booksJsonElements.next()
-            booksJsonElements.remove()
+        var id: String
+        var title: String
+        var author: String
+        var releaseDate: String
+        var publisher: String
+        var description: String
+        var cover: String
+        
+        var maxAmount = 9
+        var book: JsonElement
+        
+        while (maxAmount >= 0) {
+            book = books.next()
+            books.remove()
 
-            val title =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("title")?.asString
+            id = 
+                book.asJsonObject.get("id")?.asString
                     ?: continue
-            val author =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("authors")?.asJsonArray?.get(0)?.asString
+            title =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("title")?.asString
                     ?: continue
-            val releaseDate =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("publishedDate")?.asString
+            author =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("authors")?.asJsonArray?.get(0)?.asString
                     ?: continue
-            val publisher =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("publisher")?.asString
+            releaseDate =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("publishedDate")?.asString
                     ?: continue
-            val description =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("description")?.asString
+            publisher =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("publisher")?.asString
                     ?: continue
-            val cover =
-                bookJsonElement.asJsonObject.get("volumeInfo")?.asJsonObject?.get("imageLinks")?.asJsonObject?.get("thumbnail")?.asString
+            description =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("description")?.asString
+                    ?: continue
+            cover =
+                book.asJsonObject.get("volumeInfo")?.asJsonObject?.get("imageLinks")?.asJsonObject?.get("thumbnail")?.asString
                     ?: continue
 
-            booksList.add(
+            val jsonObject = JsonObject()
+            jsonObject.addProperty("title", title)
+            jsonObject.addProperty("author", author)
+            jsonObject.addProperty("releaseDate", releaseDate)
+            jsonObject.addProperty("publisher", publisher)
+            jsonObject.addProperty("description", description)
+            jsonObject.addProperty("cover", cover)
+            
+            bookList.add(jsonObject)
+            
+            /*booksList.add(
                 Book(
                     title,
                     author,
                     BitmapFactory.decodeStream(URL(cover).openConnection().getInputStream())
                 )
-            )
+            )*/
 
-            booksTotal--
+            maxAmount--
 
             /*booksList.add(
                 Book(
@@ -66,6 +89,7 @@ class GoogleBooks() {
                     bookJsonElement.getAsJsonObject().get("volumeInfo").getAsJsonObject().get("imageLinks").getAsString().getAsJsonObject().get("thumbnail").getAsString()
                 )
             )*/
+            
             val z = 0
         }
         
