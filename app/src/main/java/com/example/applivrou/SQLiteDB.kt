@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.google.gson.JsonObject
 import java.net.URL
 
 class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1), BookshelfDAO {
@@ -15,13 +16,13 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
     private val CREATE_TABLE = """
         CREATE TABLE $TABLE_NAME (
             ID INTEGER NOT NULL,
-            TITLE VARCHAR NOT NULL,
-            AUTHOR VARCHAR NOT NULL,
-            RELEASE_DATE VARCHAR NOT NULL,
-            PUBLISHER VARCHAR NOT NULL,
+            TITLE TEXT NOT NULL,
+            AUTHOR TEXT NOT NULL,
+            RELEASE_DATE TEXT NOT NULL,
+            PUBLISHER TEXT NOT NULL,
             DESCRIPTION TEXT NOT NULL,
-            COVER VARCHAR NOT NULL,
-            CATEGORY VARCHAR NOT NULL,
+            COVER TEXT NOT NULL,
+            CATEGORY TEXT NOT NULL,
             
             PRIMARY KEY ${'('}ID${')'}
         )
@@ -36,16 +37,18 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
     }
 
     override fun getBooks(category: String): ArrayList<Book> {
-        booksList?.clear() ?: booksList
+        booksList?.clear()
         
         val db = readableDatabase ?: return booksList
-        val sql = "SELECT * FROM $TABLE_NAME"
-        var cursor = db.rawQuery(sql, null) ?: return booksList
+        val sql = "SELECT * FROM $TABLE_NAME WHERE CATEGORY = ?"
+        var cursor = db.rawQuery(sql, arrayOf(category)) ?: return booksList
+
+        var url: URL
+        var bmp: Bitmap
 
         while (cursor.moveToNext()) {
-            val url =
-                    URL(cursor.getString(cursor.getColumnIndex("COVER")))
-            val bmp: Bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            url = URL(cursor.getString(cursor.getColumnIndex("COVER")))
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
             booksList.add(
                 Book(
@@ -56,40 +59,31 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
             )
         }
         
-        db.close()
+        // db.close()
 
         return booksList
     }
     
     fun saveBooks(booksList: ArrayList<JsonObject>, category: String) {
         val db = writableDatabase ?: return
-        var sql: String
-        
+
+        val sql = "INSERT INTO $TABLE_NAME (ID, TITLE, AUTHOR, RELEASE_DATE, PUBLISHER, DESCRIPTION, COVER, CATEGORY) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+
         booksList.forEach { book ->
-            sql = """
-                INSERT INTO $TABLE_NAME (
-                    ID,
-                    TITLE,
-                    AUTHOR,
-                    RELEASE_DATE,
-                    PUBLISHER,
-                    DESCRIPTION,
-                    COVER,
-                    CATEGORY
-                ) VALUES (
-                    ${book.get("id").asString},
-                    ${book.get("title").asString},
-                    ${book.get("author").asString},
-                    ${book.get("releaseDate").asString},
-                    ${book.get("publisher").asString},
-                    ${book.get("description").asString},
-                    ${book.get("cover").asString},
-                    $category
-                )
-            """
-        
-            db.rawQuery(sql, null) ?: return
-            db.close()
+            // var x = book.get("id").asString
+
+            db.execSQL(sql, arrayOf(
+                null,
+                book.get("title").asString,
+                book.get("author").asString,
+                book.get("releaseDate").asString,
+                book.get("publisher").asString,
+                book.get("description").asString,
+                book.get("cover").asString,
+                category
+            )) ?: return
+
+            // db.close()
         }
     }
 }

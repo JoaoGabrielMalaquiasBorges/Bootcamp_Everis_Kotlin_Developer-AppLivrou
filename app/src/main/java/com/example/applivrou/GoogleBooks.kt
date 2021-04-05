@@ -1,19 +1,18 @@
 package com.example.applivrou
 
-import android.graphics.BitmapFactory
-import com.google.gson.JsonParser
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.net.URL
 
 class GoogleBooks() {
-    private val APPLICATION_API_KEY: String = ""
+    private val APPLICATION_API_KEY: String = "AIzaSyDUCjMkRDm3h44xSbQ2BQ2-fpLjdyZ_yVM"
     private val booksList: ArrayList<JsonObject> = ArrayList()
     private val httpClient = OkHttpClient()
 
     fun searchForBooksOfCategory(category: String): ArrayList<JsonObject> {
-        booksList?.clear() ?: booksList
+        booksList?.clear()
 
         val endpoint = "https://www.googleapis.com/books/v1/volumes?q=subject:${category}&printType=books&maxResults=20&key=${APPLICATION_API_KEY}"
         val request = Request.Builder().url(endpoint).build()
@@ -60,6 +59,7 @@ class GoogleBooks() {
                     ?: continue
 
             val jsonObject = JsonObject()
+            jsonObject.addProperty("id", id)
             jsonObject.addProperty("title", title)
             jsonObject.addProperty("author", author)
             jsonObject.addProperty("releaseDate", releaseDate)
@@ -67,7 +67,7 @@ class GoogleBooks() {
             jsonObject.addProperty("description", description)
             jsonObject.addProperty("cover", cover)
             
-            bookList.add(jsonObject)
+            booksList.add(jsonObject)
             
             /*booksList.add(
                 Book(

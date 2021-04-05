@@ -1,30 +1,22 @@
 package com.example.applivrou
 
-import android.app.Application
+class BookshelfRepository() {
+  private val googleBooksClient = GoogleBooks()
 
-class BookshelfRepository() : Application() {
-  private var bookshelfDB: SQLiteDB? = null
-
-  override fun onCreate() {
-    super.onCreate()
-    bookshelfDB = SQLiteDB(this)
-  }
-
-  // private val webService = WebService()
   private val booksList: ArrayList<Book> = ArrayList()
   
   fun getSamplesOfCategory(category: String): ArrayList<Book> {
-    booksList?.clear() ?: booksList
-    booksList.addAll(bookshelfDB?.getBooks(category) ?: arrayListOf())
+    val bookshelfDB = Singleton.instance.bookshelfDB
+    booksList?.clear()
+    booksList.addAll(bookshelfDB?.getBooks(category) ?: booksList)
     
-    /*if (booksList.isEmpty()) {
-      val response = webService.makeResquest()
-      bookshelfDB.save(booksList)
-      return bookshelfDB.getBooks(category)
-    }*/
+    if (booksList.isEmpty()) {
+      val response = googleBooksClient.searchForBooksOfCategory(category)
+      bookshelfDB?.saveBooks(response, category)
+      val x = bookshelfDB?.getBooks(category)
+      booksList.addAll(x ?: booksList)
+    }
 
-    val googleBooks = GoogleBooks()
-
-    return googleBooks.searchForBooksOfCategory(category)
+    return booksList
   }
 }    

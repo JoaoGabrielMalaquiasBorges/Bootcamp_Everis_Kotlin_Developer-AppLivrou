@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     val toast = Toast.makeText(applicationContext, tab.text.toString(), Toast.LENGTH_SHORT)
                     toast.show()
                 } else {
-                    viewModel.updateBooksList2("romance")
+                    viewModel.updateBooksList("romance")
                 }
             }
 
