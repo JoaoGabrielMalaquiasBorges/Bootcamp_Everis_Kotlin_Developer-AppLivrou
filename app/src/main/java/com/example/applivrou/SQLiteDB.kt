@@ -7,15 +7,14 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.google.gson.JsonObject
 import java.net.URL
+import java.util.*
 
 class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1), BookshelfDAO {
     private val booksList: ArrayList<Book> = ArrayList()
 
-    private val TABLE_NAME = "BOOKS"
-
     private val CREATE_TABLE = """
-        CREATE TABLE $TABLE_NAME (
-            ID INTEGER NOT NULL,
+        CREATE TABLE BOOKS (
+            BOOK_ID TEXT NOT NULL,
             TITLE TEXT NOT NULL,
             AUTHOR TEXT NOT NULL,
             RELEASE_DATE TEXT NOT NULL,
@@ -24,7 +23,7 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
             COVER TEXT NOT NULL,
             CATEGORY TEXT NOT NULL,
             
-            PRIMARY KEY ${'('}ID${')'}
+            PRIMARY KEY ${'('}BOOK_ID${')'}
         )
     """
 
@@ -40,7 +39,7 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
         booksList?.clear()
         
         val db = readableDatabase ?: return booksList
-        val sql = "SELECT * FROM $TABLE_NAME WHERE CATEGORY = ?"
+        val sql = "SELECT * FROM BOOKS WHERE CATEGORY = ?"
         var cursor = db.rawQuery(sql, arrayOf(category)) ?: return booksList
 
         var url: URL
@@ -58,8 +57,6 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
                 )
             )
         }
-        
-        // db.close()
 
         return booksList
     }
@@ -67,13 +64,22 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
     fun saveBooks(booksList: ArrayList<JsonObject>, category: String) {
         val db = writableDatabase ?: return
 
-        val sql = "INSERT INTO $TABLE_NAME (ID, TITLE, AUTHOR, RELEASE_DATE, PUBLISHER, DESCRIPTION, COVER, CATEGORY) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        val sql = """
+            INSERT INTO BOOKS (
+                BOOK_ID,
+                TITLE,
+                AUTHOR,
+                RELEASE_DATE,
+                PUBLISHER,
+                DESCRIPTION,
+                COVER,
+                CATEGORY
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """
 
         booksList.forEach { book ->
-            // var x = book.get("id").asString
-
             db.execSQL(sql, arrayOf(
-                null,
+                book.get("id").asString,
                 book.get("title").asString,
                 book.get("author").asString,
                 book.get("releaseDate").asString,
@@ -82,8 +88,6 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
                 book.get("cover").asString,
                 category
             )) ?: return
-
-            // db.close()
         }
     }
 }

@@ -29,10 +29,10 @@ class GoogleBooks() {
         var description: String
         var cover: String
         
-        var maxAmount = 9
+        var maxAmount = 20
         var book: JsonElement
         
-        while (maxAmount >= 0) {
+        while (maxAmount >= 1) {
             book = books.next()
             books.remove()
 
@@ -68,29 +68,8 @@ class GoogleBooks() {
             jsonObject.addProperty("cover", cover)
             
             booksList.add(jsonObject)
-            
-            /*booksList.add(
-                Book(
-                    title,
-                    author,
-                    BitmapFactory.decodeStream(URL(cover).openConnection().getInputStream())
-                )
-            )*/
 
             maxAmount--
-
-            /*booksList.add(
-                Book(
-                    bookJsonElement.asJsonObject.get("volumeInfo").asJsonObject.get("title").asString,
-                    authorsList
-                    bookJsonElement.getAsJsonObject().get("volumeInfo").getAsJsonObject().get("publishedDate").getAsString(),
-                    bookJsonElement.getAsJsonObject().get("volumeInfo").getAsJsonObject().get("publisher").getAsString(),
-                    bookJsonElement.getAsJsonObject().get("volumeInfo").getAsJsonObject().get("description").getAsString(),
-                    bookJsonElement.getAsJsonObject().get("volumeInfo").getAsJsonObject().get("imageLinks").getAsString().getAsJsonObject().get("thumbnail").getAsString()
-                )
-            )*/
-            
-            val z = 0
         }
         
         return booksList
