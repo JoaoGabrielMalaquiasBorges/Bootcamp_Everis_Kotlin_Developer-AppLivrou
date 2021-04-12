@@ -1,28 +1,25 @@
 package com.example.applivrou
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
-    private val recyclerView: RecyclerView by lazy {
+    /*private val recyclerView: RecyclerView by lazy {
         findViewById<RecyclerView>(R.id.recycler_view)
     }
 
-    private val adapter = Adapter()
+    private val adapter = Adapter()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.books_shelf)
 
+        val fragment = CollectionDemoFragment()
+        val fragmentManager = supportFragmentManager.beginTransaction()
+        fragmentManager.add(R.id.view, fragment)
+        fragmentManager.commit()
 
-
-        var viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        /*var viewModel = ViewModelProvider(this).get(ViewModel::class.java)
 
         bindViews()
 
@@ -32,10 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         // viewModel.updateBooksList()
 
-        swapBooksCategory(viewModel)
+        swapBooksCategory(viewModel)*/
     }
 
-    private fun bindViews() {
+    /*private fun bindViews() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -61,5 +58,5 @@ class MainActivity : AppCompatActivity() {
                 // Handle tab unselect
             }
         })
-    }
+    }*/
 }
