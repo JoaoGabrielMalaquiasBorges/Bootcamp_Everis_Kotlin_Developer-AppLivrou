@@ -29,10 +29,10 @@ class GoogleBooks() {
         var description: String
         var cover: String
         
-        var maxAmount = 20
+        var maxAmount = 19
         var book: JsonElement
         
-        while (maxAmount >= 1) {
+        while (maxAmount >= 0) {
             book = books.next()
             books.remove()
 
@@ -66,6 +66,10 @@ class GoogleBooks() {
             jsonObject.addProperty("publisher", publisher)
             jsonObject.addProperty("description", description)
             jsonObject.addProperty("cover", cover)
+
+            if (booksList.size == 9) {
+                break
+            }
             
             booksList.add(jsonObject)
 

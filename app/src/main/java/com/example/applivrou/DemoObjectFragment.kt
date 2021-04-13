@@ -25,15 +25,13 @@ class DemoObjectFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
         val viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+
         viewModel.booksList.observe(viewLifecycleOwner, Observer {
             booksList -> recyclerViewAdapter.updateList(booksList)
         })
 
-        arguments?.takeIf { it.containsKey("ARG_OBJECT") }?.apply {
-            viewModel.updateBooksList("romance")
-
-            /*val textView: TextView = view.findViewById(R.id.text)
-            textView.text = getInt("ARG_OBJECT").toString()*/
+        arguments?.takeIf { it.containsKey("booksCategory") }?.apply {
+            viewModel.updateBooksList(getString("booksCategory")!!)
         }
     }
 }
