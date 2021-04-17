@@ -17,21 +17,36 @@ class DemoObjectFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_collection_object, container, false)
     }
 
+    /*private lateinit var text: String
+    private lateinit var textView: TextView*/
+    private val booksList = ArrayList<Book>()
+    private lateinit var viewModel: ViewModel
+    private lateinit var booksCategory: String
+    private val recyclerViewAdapter = Adapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        val recyclerViewAdapter = Adapter()
 
         recyclerView.adapter = recyclerViewAdapter
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        val viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-
-        viewModel.booksList.observe(viewLifecycleOwner, Observer {
-            booksList -> recyclerViewAdapter.updateList(booksList)
-        })
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         arguments?.takeIf { it.containsKey("booksCategory") }?.apply {
-            viewModel.updateBooksList(getString("booksCategory")!!)
+            booksCategory = getString("booksCategory")!!
+            //
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (booksList.isEmpty()) {
+            viewModel.booksList.observe(viewLifecycleOwner, Observer {
+                    booksList ->
+                        this.booksList?.clear()
+                        this.booksList.addAll(booksList)
+                        recyclerViewAdapter.updateList(this.booksList)
+            })
+            viewModel.updateBooksList(booksCategory)
         }
     }
 }

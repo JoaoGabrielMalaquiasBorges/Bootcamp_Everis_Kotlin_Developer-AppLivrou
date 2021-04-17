@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class DemoCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    private val booksCategoriesList = arrayListOf("fantasy", "romance", "fiction", "thriller")
     override fun getItemCount(): Int = 4
+    private val booksCategoriesList = arrayListOf("fantasy", "romance", "fiction", "thriller")
 
     override fun createFragment(position: Int): Fragment {
         val fragment = DemoObjectFragment()

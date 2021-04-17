@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class CollectionDemoFragment : Fragment() {
-    // When requested, this adapter returns a DemoObjectFragment,
-    // representing an object in the collection.
     private lateinit var demoCollectionAdapter: DemoCollectionAdapter
     private lateinit var viewPager: ViewPager2
+    val booksCategoriesList = arrayListOf("fantasy", "romance", "fiction", "thriller")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,5 +26,10 @@ class CollectionDemoFragment : Fragment() {
         demoCollectionAdapter = DemoCollectionAdapter(this)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
+
+        val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = "${booksCategoriesList[position]}"
+        }.attach()
     }
 }
