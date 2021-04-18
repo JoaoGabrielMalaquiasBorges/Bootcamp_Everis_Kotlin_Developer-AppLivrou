@@ -10,16 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class DemoObjectFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_collection_object, container, false)
-    }
-
+class BooksListRecyclerViewFragment : Fragment() {
+    private val recyclerViewAdapter = Adapter()
     private lateinit var viewModel: ViewModel
     private lateinit var booksCategory: String
-    private val recyclerViewAdapter = Adapter()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.books_list_recycler_view_fragment, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
