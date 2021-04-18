@@ -1,4 +1,4 @@
-package com.example.applivrou
+package com.example.applivrou.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.applivrou.Book
+import com.example.applivrou.R
 
 class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
     private val list: ArrayList<Book> = arrayListOf()

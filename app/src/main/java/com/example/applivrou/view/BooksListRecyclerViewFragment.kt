@@ -1,4 +1,4 @@
-package com.example.applivrou
+package com.example.applivrou.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.applivrou.R
+import com.example.applivrou.ViewModel
 
 class BooksListRecyclerViewFragment : Fragment() {
     private val recyclerViewAdapter = Adapter()

@@ -1,5 +1,6 @@
-package com.example.applivrou
+package com.example.applivrou.view
 
+import com.example.applivrou.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 

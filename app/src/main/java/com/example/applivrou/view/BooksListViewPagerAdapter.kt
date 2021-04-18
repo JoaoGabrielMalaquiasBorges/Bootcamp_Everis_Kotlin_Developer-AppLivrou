@@ -1,4 +1,4 @@
-package com.example.applivrou
+package com.example.applivrou.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
