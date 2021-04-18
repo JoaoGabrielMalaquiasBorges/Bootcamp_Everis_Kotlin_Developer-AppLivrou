@@ -14,10 +14,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.books_shelf)
 
-        val fragment = CollectionDemoFragment()
-        val fragmentManager = supportFragmentManager.beginTransaction()
-        fragmentManager.add(R.id.view, fragment)
-        fragmentManager.commit()
+        if (savedInstanceState == null) {
+            val fragment = CollectionDemoFragment()
+            val fragmentManager = supportFragmentManager.beginTransaction()
+            fragmentManager.add(R.id.view, fragment)
+            fragmentManager.commit()
+        }
 
         /*var viewModel = ViewModelProvider(this).get(ViewModel::class.java)
 

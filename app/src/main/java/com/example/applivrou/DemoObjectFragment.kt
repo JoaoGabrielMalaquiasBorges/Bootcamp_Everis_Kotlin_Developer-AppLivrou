@@ -17,9 +17,6 @@ class DemoObjectFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_collection_object, container, false)
     }
 
-    /*private lateinit var text: String
-    private lateinit var textView: TextView*/
-    private val booksList = ArrayList<Book>()
     private lateinit var viewModel: ViewModel
     private lateinit var booksCategory: String
     private val recyclerViewAdapter = Adapter()
@@ -33,18 +30,14 @@ class DemoObjectFragment : Fragment() {
 
         arguments?.takeIf { it.containsKey("booksCategory") }?.apply {
             booksCategory = getString("booksCategory")!!
-            //
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (booksList.isEmpty()) {
+        if (!viewModel.booksList.hasObservers()) {
             viewModel.booksList.observe(viewLifecycleOwner, Observer {
-                    booksList ->
-                        this.booksList?.clear()
-                        this.booksList.addAll(booksList)
-                        recyclerViewAdapter.updateList(this.booksList)
+                    booksList -> recyclerViewAdapter.updateList(booksList)
             })
             viewModel.updateBooksList(booksCategory)
         }
