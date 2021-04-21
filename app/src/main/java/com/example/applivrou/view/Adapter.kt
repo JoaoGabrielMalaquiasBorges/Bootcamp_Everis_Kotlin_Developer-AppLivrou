@@ -1,5 +1,6 @@
 package com.example.applivrou.view
 
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.applivrou.Book
 import com.example.applivrou.R
 
-class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
+      RecyclerView.Adapter<Adapter.ViewHolder>() {
     private val list: ArrayList<Book> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,18 +33,26 @@ class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookTitle: TextView = itemView.findViewById(R.id.title)
         private val bookAuthor: TextView = itemView.findViewById(R.id.author)
         private val bookCover: ImageView = itemView.findViewById(R.id.cover)
         // private val bookDescription: TextView = itemView.findViewById(R.id.description)
 
-
+        /*init {
+            itemView.setOnClickListener {
+                onClickListener()
+            }
+        }*/
 
         fun setProperties(book: Book) {
             bookTitle.text = book.title
             bookAuthor.text = book.author
             bookCover.setImageBitmap(book.cover)
+
+            itemView.setOnClickListener {
+                onClickListener(book)
+            }
 
             /*val url = URL(book.cover)
             val bmp: Bitmap? = BitmapFactory.decodeStream(url.openConnection().getInputStream())*/

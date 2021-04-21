@@ -1,6 +1,8 @@
 package com.example.applivrou.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,11 @@ import com.example.applivrou.R
 import com.example.applivrou.ViewModel
 
 class BooksListRecyclerViewFragment : Fragment() {
-    private val recyclerViewAdapter = Adapter()
+    private val recyclerViewAdapter = Adapter { bookDetails: Parcelable ->
+        val intent = Intent(context, BookDetailsActivity::class.java)
+        intent.putExtra("BOOK_DETAILS", bookDetails)
+        startActivity(intent)
+    }
     private lateinit var viewModel: ViewModel
     private lateinit var booksCategory: String
 

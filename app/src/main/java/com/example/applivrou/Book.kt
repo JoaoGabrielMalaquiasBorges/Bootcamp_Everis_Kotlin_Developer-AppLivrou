@@ -1,7 +1,10 @@
 package com.example.applivrou
 
 import android.graphics.Bitmap
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Book(
         var title: String,
         var author: String,/*,
@@ -10,4 +13,4 @@ data class Book(
         var publisher: String,
         var description: String,*/
         var cover: Bitmap
-)
+) : Parcelable
