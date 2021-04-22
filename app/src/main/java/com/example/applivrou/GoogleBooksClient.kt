@@ -6,7 +6,7 @@ import com.google.gson.JsonParser
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class GoogleBooks() {
+class GoogleBooksClient() {
     private val APPLICATION_API_KEY: String = "AIzaSyDUCjMkRDm3h44xSbQ2BQ2-fpLjdyZ_yVM"
     private val booksList: ArrayList<JsonObject> = ArrayList()
     private val httpClient = OkHttpClient()

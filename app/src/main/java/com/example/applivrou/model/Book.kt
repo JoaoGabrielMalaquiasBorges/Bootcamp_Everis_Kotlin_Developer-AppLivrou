@@ -1,4 +1,4 @@
-package com.example.applivrou
+package com.example.applivrou.model
 
 import android.graphics.Bitmap
 import android.os.Parcelable

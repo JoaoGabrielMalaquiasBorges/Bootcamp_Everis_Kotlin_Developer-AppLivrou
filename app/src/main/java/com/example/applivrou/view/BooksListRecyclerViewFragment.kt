@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applivrou.R
-import com.example.applivrou.ViewModel
+import com.example.applivrou.viewmodel.ViewModel
 
 class BooksListRecyclerViewFragment : Fragment() {
     private val recyclerViewAdapter = Adapter { bookDetails: Parcelable ->

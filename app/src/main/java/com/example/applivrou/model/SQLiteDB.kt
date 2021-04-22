@@ -1,4 +1,4 @@
-package com.example.applivrou
+package com.example.applivrou.model
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -36,11 +36,11 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
     }
 
     override fun getBooks(category: String): ArrayList<Book> {
-        booksList?.clear()
+        booksList.clear()
         
         val db = readableDatabase ?: return booksList
         val sql = "SELECT * FROM BOOKS WHERE CATEGORY = ?"
-        var cursor = db.rawQuery(sql, arrayOf(category)) ?: return booksList
+        val cursor = db.rawQuery(sql, arrayOf(category)) ?: return booksList
 
         var url: URL
         var bmp: Bitmap
@@ -50,11 +50,11 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
             bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
             booksList.add(
-                Book(
-                    cursor.getString(cursor.getColumnIndex("TITLE")),
-                    cursor.getString(cursor.getColumnIndex("AUTHOR")),
-                    bmp
-                )
+                    Book(
+                            cursor.getString(cursor.getColumnIndex("TITLE")),
+                            cursor.getString(cursor.getColumnIndex("AUTHOR")),
+                            bmp
+                    )
             )
         }
 
@@ -87,7 +87,7 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
                 book.get("description").asString,
                 book.get("cover").asString,
                 category
-            )) ?: return
+            ))
         }
     }
 }

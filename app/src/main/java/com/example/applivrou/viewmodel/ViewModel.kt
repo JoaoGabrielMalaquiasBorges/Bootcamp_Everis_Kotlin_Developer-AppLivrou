@@ -1,12 +1,14 @@
-package com.example.applivrou
+package com.example.applivrou.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.applivrou.BookshelfRepository
+import com.example.applivrou.model.Book
 
 class ViewModel: ViewModel() {
     private val bookshelfRepository = BookshelfRepository()
 
-    var booksList = MutableLiveData<ArrayList<Book>>()// .apply { value = booksShelf }
+    var booksList = MutableLiveData<ArrayList<Book>>()
 
     fun updateBooksList(category: String) {
         Thread(Runnable {

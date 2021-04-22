@@ -1,7 +1,10 @@
 package com.example.applivrou
 
+import com.example.applivrou.model.Book
+import com.example.applivrou.model.Singleton
+
 class BookshelfRepository() {
-  private val googleBooksClient = GoogleBooks()
+  private val googleBooksClient = GoogleBooksClient()
 
   private val booksList: ArrayList<Book> = ArrayList()
   

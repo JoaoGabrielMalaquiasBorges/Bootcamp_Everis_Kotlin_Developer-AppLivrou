@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.applivrou.Book
+import com.example.applivrou.model.Book
 import com.example.applivrou.R
 
 class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :

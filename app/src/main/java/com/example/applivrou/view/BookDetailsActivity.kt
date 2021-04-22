@@ -3,7 +3,7 @@ package com.example.applivrou.view
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.applivrou.Book
+import com.example.applivrou.model.Book
 import com.example.applivrou.R
 
 class BookDetailsActivity : AppCompatActivity() {
