@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applivrou.R
 import com.example.applivrou.viewmodel.ViewModel
@@ -33,7 +33,7 @@ class BooksListRecyclerViewFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
 
         recyclerView.adapter = recyclerViewAdapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = GridLayoutManager(context, 3)
 
         arguments?.takeIf { it.containsKey("booksCategory") }?.apply {
             booksCategory = getString("booksCategory")!!
