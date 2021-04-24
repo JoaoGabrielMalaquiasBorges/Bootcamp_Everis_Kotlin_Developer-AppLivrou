@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.applivrou.model.Book
+import coil.load
 import com.example.applivrou.R
+import com.example.applivrou.model.Book
 
 class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
       RecyclerView.Adapter<Adapter.ViewHolder>() {
@@ -39,16 +40,14 @@ class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
         private val bookCover: ImageView = itemView.findViewById(R.id.cover)
         // private val bookDescription: TextView = itemView.findViewById(R.id.description)
 
-        /*init {
-            itemView.setOnClickListener {
-                onClickListener()
-            }
-        }*/
-
         fun setProperties(book: Book) {
             bookTitle.text = book.title
             bookAuthor.text = book.author
-            bookCover.setImageBitmap(book.cover)
+
+            bookCover.load(book.cover) {
+                placeholder(R.drawable.book_cover_placeholder)
+            }
+            // bookCover.setImageBitmap(book.cover)
 
             itemView.setOnClickListener {
                 onClickListener(book)

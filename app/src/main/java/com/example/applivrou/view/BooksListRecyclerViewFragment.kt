@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,8 +21,10 @@ class BooksListRecyclerViewFragment : Fragment() {
         intent.putExtra("BOOK_DETAILS", bookDetails)
         startActivity(intent)
     }
+
     private lateinit var viewModel: ViewModel
     private lateinit var booksCategory: String
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,7 +33,9 @@ class BooksListRecyclerViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        progressBar = view.findViewById(R.id.progress_bar)
 
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = GridLayoutManager(context, 3)
@@ -44,7 +49,9 @@ class BooksListRecyclerViewFragment : Fragment() {
         super.onResume()
         if (!viewModel.booksList.hasObservers()) {
             viewModel.booksList.observe(viewLifecycleOwner, Observer {
-                    booksList -> recyclerViewAdapter.updateList(booksList)
+                booksList ->
+                    progressBar.visibility = View.GONE
+                    recyclerViewAdapter.updateList(booksList)
             })
             viewModel.updateBooksList(booksCategory)
         }

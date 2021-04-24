@@ -3,8 +3,9 @@ package com.example.applivrou.view
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.applivrou.model.Book
+import coil.load
 import com.example.applivrou.R
+import com.example.applivrou.model.Book
 
 class BookDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +14,9 @@ class BookDetailsActivity : AppCompatActivity() {
 
         val bookDetails: Book? = intent.getParcelableExtra("BOOK_DETAILS")
         val bookCover: ImageView = findViewById(R.id.book_cover)
-        bookCover.setImageBitmap(bookDetails?.cover)
+
+        bookCover.load(bookDetails?.cover) {
+            placeholder(R.drawable.book_cover_placeholder)
+        }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.google.gson.JsonObject
 import java.net.URL
 import java.util.*
@@ -46,14 +45,14 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
         var bmp: Bitmap
 
         while (cursor.moveToNext()) {
-            url = URL(cursor.getString(cursor.getColumnIndex("COVER")))
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            /*url = URL(cursor.getString(cursor.getColumnIndex("COVER")))
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())*/
 
             booksList.add(
                     Book(
-                            cursor.getString(cursor.getColumnIndex("TITLE")),
-                            cursor.getString(cursor.getColumnIndex("AUTHOR")),
-                            bmp
+                        cursor.getString(cursor.getColumnIndex("TITLE")),
+                        cursor.getString(cursor.getColumnIndex("AUTHOR")),
+                        cursor.getString(cursor.getColumnIndex("COVER"))
                     )
             )
         }
