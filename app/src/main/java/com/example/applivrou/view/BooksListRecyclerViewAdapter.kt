@@ -11,8 +11,8 @@ import coil.load
 import com.example.applivrou.R
 import com.example.applivrou.model.Book
 
-class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
-      RecyclerView.Adapter<Adapter.ViewHolder>() {
+class BooksListRecyclerViewAdapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
+      RecyclerView.Adapter<BooksListRecyclerViewAdapter.ViewHolder>() {
     private val list: ArrayList<Book> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,7 +38,6 @@ class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
         private val bookTitle: TextView = itemView.findViewById(R.id.title)
         private val bookAuthor: TextView = itemView.findViewById(R.id.author)
         private val bookCover: ImageView = itemView.findViewById(R.id.cover)
-        // private val bookDescription: TextView = itemView.findViewById(R.id.description)
 
         fun setProperties(book: Book) {
             bookTitle.text = book.title
@@ -47,16 +46,10 @@ class Adapter(private val onClickListener: (bookDetails: Parcelable) -> Unit) :
             bookCover.load(book.cover) {
                 placeholder(R.drawable.book_cover_placeholder)
             }
-            // bookCover.setImageBitmap(book.cover)
 
             itemView.setOnClickListener {
                 onClickListener(book)
             }
-
-            /*val url = URL(book.cover)
-            val bmp: Bitmap? = BitmapFactory.decodeStream(url.openConnection().getInputStream())*/
-
-            // bookDescription.text = book.description
         }
     }
 }

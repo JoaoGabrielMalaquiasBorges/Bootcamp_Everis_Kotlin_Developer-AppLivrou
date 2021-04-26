@@ -9,7 +9,7 @@ data class Book(
         var author: String,/*,
         var edition: String,
         var releaseDate: String,
-        var publisher: String,
-        var description: String,*/
+        var publisher: String,*/
+        var description: String,
         var cover: String
 ) : Parcelable

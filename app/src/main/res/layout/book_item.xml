@@ -3,41 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/container">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="97.68dp"
+        android:layout_width="98dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/cover"
-            android:layout_width="match_parent"
+            app:shapeAppearanceOverlay="@style/roundedCornersImageView"
+            android:layout_width="wrap_content"
             android:layout_height="139dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="97.68dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cover"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Title"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
             android:maxLines="1"
-            android:ellipsize="end"/>
+            app:layout_constraintBottom_toTopOf="@id/author"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cover"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:lineHeight="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="97.68dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Descriptionnnnnnnnnnnn"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="4dp"
             android:maxLines="1"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:textSize="12sp"
+            android:lineHeight="14sp"
+            android:textStyle="normal"
+            android:textColor="@color/text_disable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

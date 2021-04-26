@@ -1,5 +1,5 @@
 package com.example.applivrou.model
 
-interface BookshelfDAO {
+interface BooksDAO {
     fun getBooks(category: String): ArrayList<Book>
 }

@@ -20,7 +20,9 @@ class BooksListViewPagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.books_list_view_pager_fragment, container, false)
+        return inflater.inflate(
+            R.layout.books_list_view_pager_fragment, container, false
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,7 +34,9 @@ class BooksListViewPagerFragment : Fragment() {
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = booksCategoriesList[position]
+            tab.setText(
+                R.string::class.java.getField(booksCategoriesList[position]).getInt(null)
+            )
         }.attach()
     }
 }

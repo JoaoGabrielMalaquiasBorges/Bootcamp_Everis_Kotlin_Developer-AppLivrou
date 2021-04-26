@@ -3,12 +3,10 @@ package com.example.applivrou.model
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
 import com.google.gson.JsonObject
-import java.net.URL
 import java.util.*
 
-class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1), BookshelfDAO {
+class HelperSQLite(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1), BooksDAO {
     private val booksList: ArrayList<Book> = ArrayList()
 
     private val CREATE_TABLE = """
@@ -41,21 +39,18 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
         val sql = "SELECT * FROM BOOKS WHERE CATEGORY = ?"
         val cursor = db.rawQuery(sql, arrayOf(category)) ?: return booksList
 
-        var url: URL
-        var bmp: Bitmap
-
         while (cursor.moveToNext()) {
-            /*url = URL(cursor.getString(cursor.getColumnIndex("COVER")))
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())*/
-
             booksList.add(
-                    Book(
-                        cursor.getString(cursor.getColumnIndex("TITLE")),
-                        cursor.getString(cursor.getColumnIndex("AUTHOR")),
-                        cursor.getString(cursor.getColumnIndex("COVER"))
-                    )
+                Book(
+                    cursor.getString(cursor.getColumnIndex("TITLE")),
+                    cursor.getString(cursor.getColumnIndex("AUTHOR")),
+                    cursor.getString(cursor.getColumnIndex("DESCRIPTION")),
+                    cursor.getString(cursor.getColumnIndex("COVER"))
+                )
             )
         }
+
+        db.close()
 
         return booksList
     }
@@ -88,5 +83,7 @@ class SQLiteDB(context: Context) : SQLiteOpenHelper(context, "SQLiteDB", null, 1
                 category
             ))
         }
+
+        db.close()
     }
 }

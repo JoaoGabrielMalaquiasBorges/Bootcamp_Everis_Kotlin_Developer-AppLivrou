@@ -13,16 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applivrou.R
-import com.example.applivrou.viewmodel.ViewModel
+import com.example.applivrou.viewmodel.BooksListViewModel
 
 class BooksListRecyclerViewFragment : Fragment() {
-    private val recyclerViewAdapter = Adapter { bookDetails: Parcelable ->
+    private val recyclerViewAdapter = BooksListRecyclerViewAdapter { bookDetails: Parcelable ->
         val intent = Intent(context, BookDetailsActivity::class.java)
         intent.putExtra("BOOK_DETAILS", bookDetails)
         startActivity(intent)
     }
 
-    private lateinit var viewModel: ViewModel
+    private lateinit var booksListViewModel: BooksListViewModel
     private lateinit var booksCategory: String
     private lateinit var progressBar: ProgressBar
 
@@ -32,9 +32,12 @@ class BooksListRecyclerViewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        booksListViewModel = ViewModelProvider(this).get(BooksListViewModel::class.java)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        val booksListRecyclerViewItemsDecoration = BooksListRecyclerViewItemsDecoration()
+
+        recyclerView.addItemDecoration(booksListRecyclerViewItemsDecoration)
         progressBar = view.findViewById(R.id.progress_bar)
 
         recyclerView.adapter = recyclerViewAdapter
@@ -47,13 +50,13 @@ class BooksListRecyclerViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.booksList.hasObservers()) {
-            viewModel.booksList.observe(viewLifecycleOwner, Observer {
+        if (!booksListViewModel.booksList.hasObservers()) {
+            booksListViewModel.booksList.observe(viewLifecycleOwner, Observer {
                 booksList ->
                     progressBar.visibility = View.GONE
                     recyclerViewAdapter.updateList(booksList)
             })
-            viewModel.updateBooksList(booksCategory)
+            booksListViewModel.updateBooksList(booksCategory)
         }
     }
 }
