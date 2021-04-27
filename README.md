@@ -25,7 +25,7 @@
 ### Abaixo vê-se um diagrama de classes simplificado, mostrando a visão geral do sistema:
 
 <p align="center">
- <img src="Class Diagram6.jpg" alt="Class Diagram" width="1000" height="1300">
+ <img src="/files_for_presentation/Class Diagram6.jpg" alt="Class Diagram" width="1000" height="1300">
 </p>
 
 ### Pontos a melhorar:
